@@ -21,28 +21,24 @@
  */
 package org.apache.ctakes.smokingstatus.ae;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
-import java.net.URL;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.StringTokenizer;
-
+import org.apache.ctakes.core.resource.FileResource;
+import org.apache.ctakes.smokingstatus.Const;
+import org.apache.ctakes.smokingstatus.i2b2.type.RecordSentence;
+import org.apache.ctakes.smokingstatus.type.SmokingDocumentClassification;
+import org.apache.ctakes.smokingstatus.type.libsvm.NominalAttributeValue;
+import org.apache.ctakes.smokingstatus.util.ClassifiableEntry;
+import org.apache.ctakes.smokingstatus.util.TruthValue;
+import org.apache.ctakes.typesystem.type.structured.DocumentID;
+import org.apache.ctakes.typesystem.type.textspan.Segment;
+import org.apache.ctakes.typesystem.type.textspan.Sentence;
 import org.apache.log4j.Logger;
-import org.apache.uima.pear.tools.PackageInstaller;
 import org.apache.uima.UIMAFramework;
 import org.apache.uima.UimaContext;
-import org.apache.uima.analysis_component.JCasAnnotator_ImplBase;
 import org.apache.uima.analysis_engine.AnalysisEngine;
+import org.apache.uima.analysis_engine.AnalysisEngineProcessException;
 import org.apache.uima.analysis_engine.annotator.AnnotatorProcessException;
 import org.apache.uima.cas.FSIterator;
+import org.apache.uima.fit.component.JCasAnnotator_ImplBase;
 import org.apache.uima.jcas.JCas;
 import org.apache.uima.jcas.JFSIndexRepository;
 import org.apache.uima.jcas.cas.TOP;
@@ -53,18 +49,11 @@ import org.apache.uima.resource.ResourceSpecifier;
 import org.apache.uima.util.CasCreationUtils;
 import org.apache.uima.util.XMLInputSource;
 
-import org.apache.ctakes.smokingstatus.i2b2.type.RecordSentence;
-
-import org.apache.ctakes.smokingstatus.type.SmokingDocumentClassification;
-
-import org.apache.ctakes.core.resource.FileResource;
-import org.apache.ctakes.smokingstatus.Const;
-import org.apache.ctakes.smokingstatus.util.ClassifiableEntry;
-import org.apache.ctakes.smokingstatus.util.TruthValue;
-import org.apache.ctakes.typesystem.type.structured.DocumentID;
-import org.apache.ctakes.typesystem.type.textspan.Segment;
-import org.apache.ctakes.typesystem.type.textspan.Sentence;
-import org.apache.ctakes.smokingstatus.type.libsvm.NominalAttributeValue;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.*;
 
 /**
  * @author Mayo Clinic Intended as an annotator to generate ClassifiableEntries
@@ -72,6 +61,8 @@ import org.apache.ctakes.smokingstatus.type.libsvm.NominalAttributeValue;
  */
 public class ClassifiableEntries extends JCasAnnotator_ImplBase {
 
+
+	// TODO @ConfigurationParameter all of these parameters.
 
 	/**
 	 * Name of configuration parameter that must be set to the filepath of the
@@ -112,12 +103,10 @@ public class ClassifiableEntries extends JCasAnnotator_ImplBase {
 	 */
 	public static final String PARAM_IGNORE_SECTIONS = "SectionsToIgnore";
 
-	public void initialize(UimaContext aContext)
-			throws ResourceInitializationException {
+	public void initialize( final UimaContext aContext ) throws ResourceInitializationException {
+		super.initialize( aContext );
 		boolean windowsSystem = true;
 		try {
-			super.initialize(aContext);
-
 			ResMgr = UIMAFramework.newDefaultResourceManager();
 			iv_procEntryList = new ArrayList<ClassifiableEntry>();
 			iv_entryIndexMap = new HashMap<String, List<ClassifiableEntry>>();
@@ -278,7 +267,7 @@ public class ClassifiableEntries extends JCasAnnotator_ImplBase {
 	 * apache.uima.jcas.impl.JCas,
 	 * org.apache.uima.analysis_engine.ResultSpecification)
 	 */
-	public void process(JCas jcas) {
+	public void process( final JCas jcas ) throws AnalysisEngineProcessException {
 		// cleanup
 
 		iv_entryIndexMap.clear();
@@ -528,8 +517,7 @@ public class ClassifiableEntries extends JCasAnnotator_ImplBase {
 	 * Given all the unique classifications for a given record, resolve it down
 	 * to a single final classifcation.
 	 * 
-	 * @param cList
-	 * @return
+	 * @return -
 	 */
 	private String resolveClassification() {
 		// If (all sentences in a report are classified as UNKNOWN)

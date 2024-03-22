@@ -27,7 +27,7 @@
    <parent>
       <artifactId>ctakes</artifactId>
       <groupId>org.apache.ctakes</groupId>
-      <version>5.0.0-SNAPSHOT</version>
+      <version>5.1.0-SNAPSHOT</version>
    </parent>
    <description>Tiny Rest Service to run a ctakes pipeline.</description>
 
@@ -47,6 +47,11 @@
          <groupId>org.springframework</groupId>
          <artifactId>spring-webmvc</artifactId>
          <version>${springframework.version}</version>
+      </dependency>
+      <dependency>
+         <groupId>javax.annotation</groupId>
+         <artifactId>javax.annotation-api</artifactId>
+         <version>1.3.2</version>
       </dependency>
 
       <dependency>

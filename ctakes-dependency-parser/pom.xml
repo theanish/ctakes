@@ -27,13 +27,13 @@
 	<parent>
 		<groupId>org.apache.ctakes</groupId>
 		<artifactId>ctakes</artifactId>
-		<version>5.0.0-SNAPSHOT</version>
+		<version>5.1.0-SNAPSHOT</version>
 	</parent>
 	<dependencies>
       <dependency>
 			<groupId>org.apache.ctakes</groupId>
 			<artifactId>ctakes-dependency-parser-models</artifactId>
-			<version>${ctakes.models.version}</version>
+			<version>${ctakes-models.version}</version>
 		</dependency>
 <!--   ctakes-dependency-parser-clear  is a large model, not used by default in ctakes.
 			If you need to use it then uncomment the dependency declaration below.   -->
