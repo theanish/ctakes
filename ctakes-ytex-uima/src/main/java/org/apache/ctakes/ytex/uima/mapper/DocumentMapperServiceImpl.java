@@ -1,4 +1,4 @@
-/**
+/*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
  * distributed with this work for additional information
@@ -18,36 +18,17 @@
  */
 package org.apache.ctakes.ytex.uima.mapper;
 
-import java.io.ByteArrayOutputStream;
-import java.sql.Connection;
-import java.sql.DatabaseMetaData;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.ResultSetMetaData;
-import java.sql.SQLException;
-import java.sql.Statement;
-import java.sql.Types;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Properties;
-import java.util.Set;
-import java.util.TreeSet;
-import java.util.zip.GZIPOutputStream;
-
-import javax.sql.DataSource;
-
+import com.google.common.base.Predicate;
+import com.google.common.base.Strings;
+import com.google.common.collect.*;
 import org.apache.commons.collections.map.CaseInsensitiveMap;
 import org.apache.commons.jxpath.JXPathContext;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.apache.ctakes.typesystem.type.relation.LocationOfTextRelation;
+import org.apache.ctakes.typesystem.type.textsem.DiseaseDisorderMention;
+import org.apache.ctakes.typesystem.type.textsem.ProcedureMention;
+import org.apache.ctakes.typesystem.type.textsem.SignSymptomMention;
 import org.apache.ctakes.ytex.dao.DBUtil;
 import org.apache.ctakes.ytex.uima.model.Document;
 import org.apache.ctakes.ytex.uima.model.DocumentAnnotation;
@@ -82,15 +63,14 @@ import org.springframework.transaction.support.DefaultTransactionDefinition;
 import org.springframework.transaction.support.TransactionCallback;
 import org.springframework.transaction.support.TransactionTemplate;
 
-import com.google.common.base.Predicate;
-import com.google.common.base.Strings;
-import com.google.common.collect.ArrayListMultimap;
-import com.google.common.collect.BiMap;
-import com.google.common.collect.Collections2;
-import com.google.common.collect.HashBiMap;
-import com.google.common.collect.HashMultimap;
-import com.google.common.collect.ListMultimap;
-import com.google.common.collect.SetMultimap;
+import javax.sql.DataSource;
+import java.io.ByteArrayOutputStream;
+import java.sql.*;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.*;
+import java.util.zip.GZIPOutputStream;
 
 /**
  * Map document annotations to the database.
@@ -589,8 +569,8 @@ public class DocumentMapperServiceImpl implements DocumentMapperService,
 	/**
 	 * load mapping info
 	 * 
-	 * @param type
-	 * @return
+	 * @param fs -
+	 * @return -
 	 */
 	private AnnoMappingInfo initMapInfo(final FeatureStructure fs) {
 		final Type type = fs.getType();
@@ -1153,7 +1133,7 @@ public class DocumentMapperServiceImpl implements DocumentMapperService,
 	/**
 	 * save the annotation properties for a given type
 	 * 
-	 * @param mapIdToAnno
+	 * @param mapAnnoToId
 	 *            map of all annoIDs to Annotation
 	 * @param annoIds
 	 *            annotation ids for a single type
@@ -1203,6 +1183,39 @@ public class DocumentMapperServiceImpl implements DocumentMapperService,
 						Annotation anno = mapIdToAnno.get(annoId);
 						saveAnnoBindVariables(type, mapInfo, ps, annoId, anno,
 								mapAnnoToId);
+
+						// Pull out bodyLocation relation (and severity relation?) for anno_link table
+   						  if(anno instanceof DiseaseDisorderMention ) {
+  						    LocationOfTextRelation blRel = ((DiseaseDisorderMention)anno).getBodyLocation();
+  						    //DegreeOfTextRelation dtRel = ((DiseaseDisorderMention)anno).getSeverity();
+    						if(blRel != null) {
+                              Annotation site = blRel.getArg2().getArgument(); // get AnatomicalSiteLocation
+                              Integer anatSiteAnnoId = mapAnnoToId.get(site);
+                              if (anatSiteAnnoId != null) {
+                                listAnnoLinks.add(new AnnoLink(annoId, anatSiteAnnoId, "bodyLocation"));
+                              }
+    						}
+  						  } else if (anno instanceof SignSymptomMention ){
+  						    LocationOfTextRelation blRel = ((SignSymptomMention)anno).getBodyLocation();
+  						    //DegreeOfTextRelation dtRel = ((SignSymptomMention)anno).getSeverity();
+  						    if(blRel != null) {
+                              Annotation site = blRel.getArg2().getArgument(); // get AnatomicalSiteLocation
+                              Integer anatSiteAnnoId = mapAnnoToId.get(site);
+                              if (anatSiteAnnoId != null) {
+                                listAnnoLinks.add(new AnnoLink(annoId, anatSiteAnnoId, "bodyLocation"));
+                              }
+                            }
+  						  } else if (anno instanceof ProcedureMention ){
+                            LocationOfTextRelation blRel = ((ProcedureMention)anno).getBodyLocation();
+                            if(blRel != null) {
+                              Annotation site = blRel.getArg2().getArgument(); // get AnatomicalSiteLocation
+                              Integer anatSiteAnnoId = mapAnnoToId.get(site);
+                              if (anatSiteAnnoId != null) {
+                                listAnnoLinks.add(new AnnoLink(annoId, anatSiteAnnoId, "bodyLocation"));
+                              }
+                            }
+                          }
+
 						// pull out the composite fields for storage
 						for (String fieldName : fsNames) {
 							Feature feat = type.getFeatureByBaseName(fieldName);

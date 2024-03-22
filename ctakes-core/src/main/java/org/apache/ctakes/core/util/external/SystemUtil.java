@@ -10,7 +10,10 @@ import java.nio.channels.Channels;
 import java.nio.channels.FileChannel;
 import java.nio.channels.ReadableByteChannel;
 import java.nio.file.*;
-import java.util.*;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Random;
 import java.util.concurrent.*;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
@@ -331,6 +334,8 @@ final public class SystemUtil {
       private boolean _wait;
       private boolean _stopOnExit;
       private InputFeeder _inputFeeder;
+      private boolean _setJavaHome = true;
+      private String _venv;
 
       public CommandRunner( final String command ) {
          _command = command;
@@ -369,6 +374,14 @@ final public class SystemUtil {
          return _inputFeeder;
       }
 
+      public void setSetJavaHome( final boolean setJavaHome ) {
+         _setJavaHome = setJavaHome;
+      }
+
+      public void setVenv( final String venv ) {
+         _venv = venv;
+      }
+
       private String getDefaultLogFile() {
          final String ext = String.valueOf( new Random().nextLong() );
          final int spaceIndex = _command.indexOf( ' ' );
@@ -394,7 +407,9 @@ final public class SystemUtil {
                .stream()
                .filter( n -> n.startsWith( ENV_VAR_PREFIX ) )
                .forEach( n -> env.put( n.substring( ENV_VAR_PREFIX.length() ), System.getProperty( n ) ) );
+         if ( _setJavaHome ) {
             env.put( "JAVA_HOME", System.getProperty( "java.home" ) );
+         }
          if ( !env.containsKey( "CTAKES_HOME" ) ) {
             String cTakesHome = System.getenv( "CTAKES_HOME" );
             if ( cTakesHome == null || cTakesHome.isEmpty() ) {
@@ -409,6 +424,32 @@ final public class SystemUtil {
             }
          }
          env.putAll( _userEnvVars );
+         if ( _venv != null && !_venv.trim().isEmpty() ) {
+            env.put( "VIRTUAL_ENV", _venv );
+            final String WinPath = env.get( "Path" );
+            if ( WinPath != null ) {
+               env.put( "Path", getVenvPath() + WinPath );
+            }
+            final String UxPath = env.get( "PATH" );
+            if ( UxPath != null ) {
+               env.put( "PATH", getVenvPath() + UxPath );
+            }
+         }
+      }
+
+      static private final String[] VENV_EXTENSIONS
+            = { "Library/mingw-w64/bin", "Library/usr/bin", "Library/bin", "Scripts", "bin", "lib/site-packages" };
+
+      private String getVenvPath() {
+         final StringBuilder sb = new StringBuilder( _venv + File.pathSeparator );
+         for ( String extension : VENV_EXTENSIONS ) {
+            final String envPath = _venv + File.separator + extension.replace( '/', File.separatorChar );
+            if ( new File( envPath ).isDirectory() ) {
+               sb.append( envPath )
+                   .append( File.pathSeparator );
+            }
+         }
+         return sb.toString();
       }
 
       public Boolean call() throws IOException, InterruptedException {
@@ -416,7 +457,10 @@ final public class SystemUtil {
          if ( _logger == null ) {
             if ( _outLog != null && !_outLog.isEmpty() ) {
                final File log = new File( _outLog );
-               log.getParentFile().mkdirs();
+               if ( log.getParentFile() != null ) {
+                  log.getParentFile()
+                     .mkdirs();
+               }
                command += " > " + _outLog + " 2>&1";
             } else {
                command += " > " + getDefaultLogFile() + " 2>&1";

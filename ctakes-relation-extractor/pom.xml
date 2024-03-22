@@ -26,13 +26,13 @@
 	<parent>
 		<groupId>org.apache.ctakes</groupId>
 		<artifactId>ctakes</artifactId>
-		<version>5.0.0-SNAPSHOT</version>
+		<version>5.1.0-SNAPSHOT</version>
 	</parent>
 	<dependencies>
 		<dependency>
 			<groupId>org.apache.ctakes</groupId>
 			<artifactId>ctakes-relation-extractor-models</artifactId>
-			<version>${ctakes.models.version}</version>
+			<version>${ctakes-models.version}</version>
 		</dependency>
         <!--  Clinical Pipeline contains ctakes modules that are needed.  -->
 		<!--  Is Clinical Pipeline the best dependency?  -->

@@ -18,9 +18,6 @@
  */
 package org.apache.ctakes.relationextractor.ae.features;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.apache.ctakes.typesystem.type.syntax.BaseToken;
 import org.apache.ctakes.typesystem.type.textsem.IdentifiedAnnotation;
 import org.apache.uima.analysis_engine.AnalysisEngineProcessException;
@@ -33,6 +30,10 @@ import org.cleartk.ml.feature.extractor.FeatureExtractor1;
 import org.cleartk.ml.feature.extractor.NamingExtractor1;
 import org.cleartk.ml.feature.extractor.TypePathExtractor;
 
+import java.util.ArrayList;
+import java.util.List;
+
+@SuppressWarnings("unchecked")
 public class PartOfSpeechFeaturesExtractor implements RelationFeaturesExtractor<IdentifiedAnnotation,IdentifiedAnnotation> {
 
   private FeatureExtractor1 pos = new TypePathExtractor(BaseToken.class, "partOfSpeech");

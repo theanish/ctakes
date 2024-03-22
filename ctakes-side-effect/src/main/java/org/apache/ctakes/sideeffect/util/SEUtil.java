@@ -18,24 +18,19 @@
  */
 package org.apache.ctakes.sideeffect.util;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Set;
-
+import org.apache.ctakes.core.util.FSUtil;
+import org.apache.ctakes.typesystem.type.syntax.NewlineToken;
+import org.apache.ctakes.typesystem.type.syntax.WordToken;
+import org.apache.ctakes.typesystem.type.textsem.IdentifiedAnnotation;
+import org.apache.ctakes.typesystem.type.textspan.Segment;
+import org.apache.ctakes.typesystem.type.textspan.Sentence;
 import org.apache.uima.cas.CAS;
 import org.apache.uima.cas.CASException;
 import org.apache.uima.jcas.JCas;
 import org.apache.uima.jcas.JFSIndexRepository;
 import org.apache.uima.jcas.tcas.Annotation;
 
-import org.apache.ctakes.core.util.FSUtil;
-import org.apache.ctakes.typesystem.type.textsem.IdentifiedAnnotation;
-import org.apache.ctakes.typesystem.type.syntax.NewlineToken;
-import org.apache.ctakes.typesystem.type.textspan.Segment;
-import org.apache.ctakes.typesystem.type.textspan.Sentence;
-import org.apache.ctakes.typesystem.type.syntax.WordToken;
+import java.util.*;
 
 /**
  * Utility methods used in the project
@@ -233,8 +228,9 @@ public class SEUtil {
 	 * @param end
 	 * @return
 	 */
+	@SuppressWarnings( "unchecked" )
 	public static int getNumOfWordTokensInSpan(JCas jcas, int begin, int end) {
-		Set ignoreWords = new HashSet();
+		Set<String> ignoreWords = new HashSet();
 		ignoreWords.add("and");
 		ignoreWords.add("or");
 

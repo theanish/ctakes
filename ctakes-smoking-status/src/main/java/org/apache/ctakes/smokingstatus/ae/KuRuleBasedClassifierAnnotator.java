@@ -18,6 +18,18 @@
  */
 package org.apache.ctakes.smokingstatus.ae;
 
+import org.apache.ctakes.core.resource.FileLocator;
+import org.apache.ctakes.smokingstatus.Const;
+import org.apache.ctakes.smokingstatus.type.UnknownSmokerNamedEntityAnnotation;
+import org.apache.ctakes.smokingstatus.type.libsvm.NominalAttributeValue;
+import org.apache.ctakes.typesystem.type.syntax.WordToken;
+import org.apache.uima.UimaContext;
+import org.apache.uima.analysis_engine.AnalysisEngineProcessException;
+import org.apache.uima.fit.component.JCasAnnotator_ImplBase;
+import org.apache.uima.jcas.JCas;
+import org.apache.uima.jcas.JFSIndexRepository;
+import org.apache.uima.resource.ResourceInitializationException;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
@@ -26,18 +38,6 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
 
-import org.apache.uima.UimaContext;
-import org.apache.uima.analysis_component.JCasAnnotator_ImplBase;
-import org.apache.uima.jcas.JCas;
-import org.apache.uima.jcas.JFSIndexRepository;
-import org.apache.uima.resource.ResourceInitializationException;
-import org.apache.ctakes.smokingstatus.type.UnknownSmokerNamedEntityAnnotation;
-
-import org.apache.ctakes.core.resource.FileLocator;
-import org.apache.ctakes.smokingstatus.Const;
-import org.apache.ctakes.typesystem.type.syntax.WordToken;
-import org.apache.ctakes.smokingstatus.type.libsvm.NominalAttributeValue;
-
 public class KuRuleBasedClassifierAnnotator extends JCasAnnotator_ImplBase {
 	Set<String> smokingWords; // smoking related words
 	Set<String> unknownWords; // if this word/phrase appears, treat the sentence
@@ -45,8 +45,7 @@ public class KuRuleBasedClassifierAnnotator extends JCasAnnotator_ImplBase {
 	String classAttributeName;
 	boolean caseSensitive = true;
 
-	public void initialize(UimaContext aContext)
-			throws ResourceInitializationException {
+	public void initialize( final UimaContext aContext ) throws ResourceInitializationException {
 
 		super.initialize(aContext);
 
@@ -76,7 +75,7 @@ public class KuRuleBasedClassifierAnnotator extends JCasAnnotator_ImplBase {
 
 	}
 
-	public void process(JCas jcas) {
+	public void process( final JCas jcas ) throws AnalysisEngineProcessException {
 		JFSIndexRepository indexes = jcas.getJFSIndexRepository();
 		Iterator<?> tokenItr = indexes.getAnnotationIndex(WordToken.type)
 				.iterator();

@@ -22,13 +22,14 @@ import com.google.common.base.Charsets;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 import com.google.common.io.Files;
+import org.apache.ctakes.core.cc.FileTreeXmiWriter;
 import org.apache.ctakes.core.knowtator.KnowtatorAnnotation;
 import org.apache.ctakes.core.knowtator.KnowtatorXMLParser;
 import org.apache.ctakes.core.pipeline.PipeBitInfo;
 import org.apache.ctakes.core.util.SHARPKnowtatorXMLDefaults;
 import org.apache.ctakes.typesystem.type.constants.CONST;
-import org.apache.ctakes.typesystem.type.refsem.*;
 import org.apache.ctakes.typesystem.type.refsem.Date;
+import org.apache.ctakes.typesystem.type.refsem.*;
 import org.apache.ctakes.typesystem.type.relation.*;
 import org.apache.ctakes.typesystem.type.structured.DocumentID;
 import org.apache.ctakes.typesystem.type.textsem.*;
@@ -40,7 +41,6 @@ import org.apache.uima.cas.Feature;
 import org.apache.uima.fit.component.JCasAnnotator_ImplBase;
 import org.apache.uima.fit.descriptor.ConfigurationParameter;
 import org.apache.uima.fit.factory.AnalysisEngineFactory;
-import org.apache.uima.fit.util.CasIOUtil;
 import org.apache.uima.fit.util.JCasUtil;
 import org.apache.uima.jcas.JCas;
 import org.apache.uima.jcas.cas.FSArray;
@@ -1506,7 +1506,9 @@ public class SHARPKnowtatorXMLReader extends JCasAnnotator_ImplBase {
         documentID.addToIndexes();
         engine.process(jCas);
         documentID.setDocumentID(textFile.getName());
-        CasIOUtil.writeXmi(jCas, new File("/tmp", textFile.toURI().toString()));
+//        CasIOUtil.writeXmi(jCas, new File("/tmp", textFile.toURI().toString()));
+        final FileTreeXmiWriter writer = new FileTreeXmiWriter();
+        writer.writeFile( jCas, "/tmp/" + textFile.toURI(), textFile.getName(), textFile.getName()  );
       }
     }
 
