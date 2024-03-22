@@ -18,21 +18,11 @@
  */
 package org.apache.ctakes.assertion.medfacts.cleartk;
 
-import java.io.File;
-
-import org.apache.commons.cli.CommandLine;
-import org.apache.commons.cli.CommandLineParser;
-import org.apache.commons.cli.GnuParser;
-import org.apache.commons.cli.HelpFormatter;
-import org.apache.commons.cli.Option;
-import org.apache.commons.cli.OptionBuilder;
-import org.apache.commons.cli.Options;
-import org.apache.commons.cli.ParseException;
+import org.apache.commons.cli.*;
 import org.apache.ctakes.assertion.eval.AssertionEvaluation;
 import org.apache.ctakes.assertion.eval.AssertionEvaluation.ReferenceAnnotationsSystemAssertionClearer;
 import org.apache.ctakes.assertion.eval.AssertionEvaluation.ReferenceIdentifiedAnnotationsSystemToGoldCopier;
 import org.apache.ctakes.core.cc.FileTreeXmiWriter;
-import org.apache.ctakes.core.cc.XmiWriterCasConsumerCtakes;
 import org.apache.ctakes.core.config.ConfigParameterConstants;
 import org.apache.log4j.Logger;
 import org.apache.uima.analysis_engine.AnalysisEngineDescription;
@@ -48,6 +38,8 @@ import org.cleartk.ml.jar.DirectoryDataWriterFactory;
 import org.cleartk.ml.jar.GenericJarClassifierFactory;
 import org.cleartk.ml.opennlp.maxent.MaxentStringOutcomeDataWriter;
 import org.cleartk.util.cr.XReader;
+
+import java.io.File;
 
 
 public class TrainAssertionModel {

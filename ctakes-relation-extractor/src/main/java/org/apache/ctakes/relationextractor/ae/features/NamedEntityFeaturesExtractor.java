@@ -18,10 +18,6 @@
  */
 package org.apache.ctakes.relationextractor.ae.features;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-
 import org.apache.ctakes.typesystem.type.textsem.EntityMention;
 import org.apache.ctakes.typesystem.type.textsem.IdentifiedAnnotation;
 import org.apache.uima.analysis_engine.AnalysisEngineProcessException;
@@ -33,6 +29,11 @@ import org.cleartk.ml.feature.extractor.DistanceExtractor;
 import org.cleartk.ml.feature.extractor.FeatureExtractor1;
 import org.cleartk.ml.feature.extractor.NamingExtractor1;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
+// TODO If this is in use then it should be updated to modern jdk standards
 public class NamedEntityFeaturesExtractor implements RelationFeaturesExtractor<IdentifiedAnnotation,IdentifiedAnnotation> {
 
   private FeatureExtractor1 namedEntityType = new FeatureExtractor1() {
@@ -46,6 +47,7 @@ public class NamedEntityFeaturesExtractor implements RelationFeaturesExtractor<I
   /**
    * All extractors for mention 1, with features named to distinguish them from mention 2
    */
+  @SuppressWarnings( "unchecked" )
   private FeatureExtractor1 mention1FeaturesExtractor = new NamingExtractor1(
       "mention1",
       namedEntityType);
@@ -53,16 +55,19 @@ public class NamedEntityFeaturesExtractor implements RelationFeaturesExtractor<I
   /**
    * All extractors for mention 2, with features named to distinguish them from mention 1
    */
-  private FeatureExtractor1 mention2FeaturesExtractor = new NamingExtractor1(
+  @SuppressWarnings( "unchecked" )
+  final private FeatureExtractor1 mention2FeaturesExtractor = new NamingExtractor1(
       "mention2",
       namedEntityType);
 
   /**
    * Number of named entities between the two mentions
    */
-  private DistanceExtractor nEntityMentionsBetween = new DistanceExtractor(null, EntityMention.class);
+  @SuppressWarnings("unchecked")
+  final private DistanceExtractor nEntityMentionsBetween = new DistanceExtractor(null, EntityMention.class);
 
   @Override
+  @SuppressWarnings("unchecked")
   public List<Feature> extract(JCas jCas, IdentifiedAnnotation arg1, IdentifiedAnnotation arg2)
       throws AnalysisEngineProcessException {
 

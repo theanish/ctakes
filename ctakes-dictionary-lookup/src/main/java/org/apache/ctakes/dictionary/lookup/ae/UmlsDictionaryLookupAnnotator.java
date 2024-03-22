@@ -31,12 +31,7 @@ import org.apache.uima.fit.factory.AnalysisEngineFactory;
 import org.apache.uima.fit.factory.ExternalResourceFactory;
 import org.apache.uima.resource.ResourceInitializationException;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
+import java.io.*;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
@@ -46,6 +41,9 @@ import java.net.URLEncoder;
  * UIMA annotator that identified entities based on lookup.
  *
  * @author Mayo Clinic
+ *
+ * @deprecated Use the dictionary-lookup-fast module.
+ * It is much faster and the same or better accuracy according to tests on multiple annotated corpora.
  */
 @PipeBitInfo(
       name = "UMLS Dictionary Lookup (Old)",
@@ -53,6 +51,7 @@ import java.net.URLEncoder;
       dependencies = { PipeBitInfo.TypeProduct.CHUNK, PipeBitInfo.TypeProduct.BASE_TOKEN },
       products = PipeBitInfo.TypeProduct.IDENTIFIED_ANNOTATION
 )
+@Deprecated
 public class UmlsDictionaryLookupAnnotator extends DictionaryLookupAnnotator {
    /* Special implementation to pre bundle the UMLS SnowmedCT/RxNorm dictionaries
     * Performs a check for user's UMLS licence at init time via their RESTful API

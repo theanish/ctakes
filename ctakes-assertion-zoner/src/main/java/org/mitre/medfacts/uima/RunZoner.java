@@ -18,15 +18,9 @@
  */
 package org.mitre.medfacts.uima;
 
-import java.io.File;
-import java.io.FilenameFilter;
-import java.io.IOException;
-import java.net.URISyntaxException;
-import java.util.Arrays;
-import java.util.List;
-
 import org.apache.ctakes.core.ae.DocumentIdPrinterAnalysisEngine;
-import org.apache.ctakes.core.cc.XmiWriterCasConsumerCtakes;
+import org.apache.ctakes.core.cc.FileTreeXmiWriter;
+import org.apache.ctakes.core.config.ConfigParameterConstants;
 import org.apache.ctakes.core.cr.TextReader;
 import org.apache.log4j.Logger;
 import org.apache.uima.UIMAException;
@@ -38,6 +32,13 @@ import org.apache.uima.fit.factory.CollectionReaderFactory;
 import org.apache.uima.fit.factory.TypeSystemDescriptionFactory;
 import org.apache.uima.fit.pipeline.SimplePipeline;
 import org.apache.uima.resource.metadata.TypeSystemDescription;
+
+import java.io.File;
+import java.io.FilenameFilter;
+import java.io.IOException;
+import java.net.URISyntaxException;
+import java.util.Arrays;
+import java.util.List;
 
 public class RunZoner
 {
@@ -144,9 +145,11 @@ public class RunZoner
       builder.add(mayoZonerAnnotator);
 
       AnalysisEngineDescription xWriter = AnalysisEngineFactory.createEngineDescription(
-          XmiWriterCasConsumerCtakes.class,
-          typeSystemDescription,
-          XmiWriterCasConsumerCtakes.PARAM_OUTPUTDIR,
+//          XmiWriterCasConsumerCtakes.class,
+//          typeSystemDescription,
+//          XmiWriterCasConsumerCtakes.PARAM_OUTPUTDIR,
+            FileTreeXmiWriter.class,
+            ConfigParameterConstants.PARAM_OUTPUTDIR,
           outputDirectory.toString()
           );
       

@@ -18,15 +18,15 @@
  */
 package org.apache.ctakes.temporal.pipelines;
 
-import java.net.MalformedURLException;
-
+import com.lexicalscope.jewel.cli.Option;
 import org.apache.ctakes.chunker.ae.Chunker;
 import org.apache.ctakes.constituency.parser.ae.ConstituencyParser;
-import org.apache.ctakes.contexttokenizer.ae.ContextDependentTokenizerAnnotator;
+import org.apache.ctakes.context.tokenizer.ae.ContextDependentTokenizerAnnotator;
 import org.apache.ctakes.core.ae.SentenceDetector;
 import org.apache.ctakes.core.ae.SimpleSegmentAnnotator;
 import org.apache.ctakes.core.ae.TokenizerAnnotatorPTB;
-import org.apache.ctakes.core.cc.XmiWriterCasConsumerCtakes;
+import org.apache.ctakes.core.cc.FileTreeXmiWriter;
+import org.apache.ctakes.core.config.ConfigParameterConstants;
 import org.apache.ctakes.dependency.parser.ae.ClearNLPDependencyParserAE;
 import org.apache.ctakes.dependency.parser.ae.ClearNLPSemanticRoleLabelerAE;
 import org.apache.ctakes.dictionary.lookup2.ae.DefaultJCasTermAnnotator;
@@ -37,10 +37,8 @@ import org.apache.uima.analysis_engine.AnalysisEngineDescription;
 import org.apache.uima.fit.factory.AggregateBuilder;
 import org.apache.uima.fit.factory.AnalysisEngineFactory;
 import org.apache.uima.resource.ResourceInitializationException;
-import org.cleartk.util.ViewUriUtil;
-import org.cleartk.util.ae.UriToDocumentTextAnnotator;
 
-import com.lexicalscope.jewel.cli.Option;
+import java.net.MalformedURLException;
 
 public abstract class TemporalExtractionPipeline_ImplBase {
   public static interface Options {
@@ -93,9 +91,11 @@ public abstract class TemporalExtractionPipeline_ImplBase {
   
   protected static AnalysisEngine getXMIWriter(String outputDirectory) throws ResourceInitializationException{
     return AnalysisEngineFactory.createEngine(
-        XmiWriterCasConsumerCtakes.class,
-        XmiWriterCasConsumerCtakes.PARAM_OUTPUTDIR,
-        outputDirectory
+//        XmiWriterCasConsumerCtakes.class,
+//        XmiWriterCasConsumerCtakes.PARAM_OUTPUTDIR,
+          FileTreeXmiWriter.class,
+          ConfigParameterConstants.PARAM_OUTPUTDIR,
+          outputDirectory
         );
   }
   

@@ -28,13 +28,13 @@
 	<parent>
 		<groupId>org.apache.ctakes</groupId>
 		<artifactId>ctakes</artifactId>
-		<version>5.0.0-SNAPSHOT</version>
+		<version>5.1.0-SNAPSHOT</version>
 	</parent>
 	<dependencies>
 		<dependency>
 			<groupId>org.apache.ctakes</groupId>
 			<artifactId>ctakes-temporal-models</artifactId>
-			<version>${ctakes.models.version}</version>
+			<version>${ctakes-models.version}</version>
 		</dependency>
         <!--  Relation extractor uses clinical-pipeline.  No need to redeclare all those dependencies.  -->
 		<dependency>

@@ -30,7 +30,7 @@
 	<url>http://ctakes.apache.org</url>
 	<inceptionYear>2012</inceptionYear>
 	<scm>
-		<!-- In child modules, Maven will append ${artifactId} to the following 
+		<!-- In child modules, Maven will append ${artifactId} to the following
 			URLs -->
 		<connection>scm:git:https://github.com/apache/ctakes</connection>
 		<developerConnection>scm:git:https://github.com/apache/ctakes</developerConnection>
@@ -78,7 +78,6 @@
 	</mailingLists>
 
 	<properties>
-		<ctakes.models.version>5.0.0-SNAPSHOT</ctakes.models.version>
 		<!-- dependencies -->
 		<ant.version>1.9.2</ant.version>
 		<antlr.version>2.7.7</antlr.version>
@@ -99,12 +98,13 @@
 		<commons-logging.version>1.1.1</commons-logging.version>
 		<commons-pool.version>1.5.4</commons-pool.version>
 		<ctakesresources.version>4.0.0</ctakesresources.version>
+		<ctakes-models.version>5.0.0</ctakes-models.version>
 		<cxf.version>2.7.8</cxf.version>
 		<diffutils.version>1.3.0</diffutils.version>
 		<dom4j.version>1.6.1</dom4j.version>
 		<ehcache.version>2.4.6</ehcache.version>
 		<exec-maven-plugin.version>1.2.1</exec-maven-plugin.version>
-		<fast-classpath-scanner.version>2.0.18</fast-classpath-scanner.version>
+		<classgraph.version>4.8.90</classgraph.version>
 		<glassfish-web.version>2.2</glassfish-web.version>
 		<hibernate.version>4.2.6.Final</hibernate.version>
 		<hsqldb.version>2.3.4</hsqldb.version>
@@ -120,28 +120,33 @@
 		<jsr107cache.version>1.0</jsr107cache.version>
 		<junit.version>4.11</junit.version>
 		<jwi.version>2.2.3</jwi.version>
-		<mastif.version>1.4</mastif.version>
 		<maven-antrun-plugin.version>3.1.0</maven-antrun-plugin.version>
-		<maven-assembly-plugin.version>3.4.2</maven-assembly-plugin.version>
-		<maven-failsafe-plugin.version>2.20.1</maven-failsafe-plugin.version>
-		<maven-surefire-plugin.version>3.0.0-M7</maven-surefire-plugin.version>
-		<maven-war-plugin.version>3.2.3</maven-war-plugin.version>
 		<maven-license-plugin.version>1.9.0</maven-license-plugin.version>
-		<maven-clean-plugin.version>3.2.0</maven-clean-plugin.version>
-		<maven-compiler-plugin.version>3.10.1</maven-compiler-plugin.version>
-		<maven-deploy-plugin.version>3.0.0</maven-deploy-plugin.version>
-		<maven-gpg-plugin.version>3.0.1</maven-gpg-plugin.version>
-		<maven-install-plugin.version>3.0.1</maven-install-plugin.version>
 		<maven-jar-plugin.version>3.3.0</maven-jar-plugin.version>
-		<maven-javadoc-plugin.version>3.4.1</maven-javadoc-plugin.version>
-		<maven-dependency-plugin.version>3.3.0</maven-dependency-plugin.version>
-		<maven-site-plugin.version>4.0.0-M3</maven-site-plugin.version>
-		<maven-source-plugin.version>3.2.1</maven-source-plugin.version>
 		<apache-rat-plugin.version>0.15</apache-rat-plugin.version>
 		<properties-maven-plugin.version>1.1.0</properties-maven-plugin.version>
-		<maven-resources-plugin.version>3.0.0</maven-resources-plugin.version>
-		<maven-remote-resources-plugin.version>3.0.0</maven-remote-resources-plugin.version>
-
+		<maven-compiler-plugin.version>3.10.1</maven-compiler-plugin.version>
+		<maven-resources-plugin.version>3.3.1</maven-resources-plugin.version>
+		<maven-dependency-plugin.version>3.6.1</maven-dependency-plugin.version>
+		<maven-remote-resources-plugin.version>3.1.0</maven-remote-resources-plugin.version>
+<!--		jaxb2 v2+ was refactored and not backward compatible.  Try later with jdk11 -->
+<!--		<jaxb2-maven-plugin.version>2.5.0</jaxb2-maven-plugin.version>-->
+		<!--		<jaxb2-maven-plugin.version>3.1.0</jaxb2-maven-plugin.version>-->
+		<maven-site-plugin.version>4.0.0-M13</maven-site-plugin.version>
+		<maven-source-plugin.version>3.3.0</maven-source-plugin.version>
+		<maven-clean-plugin.version>3.3.2</maven-clean-plugin.version>
+<!--		maven-compiler-plugin 3.12.0 creates a compile failure in ctakes-regression-test.  -->
+<!--		<maven-compiler-plugin.version>3.12.0</maven-compiler-plugin.version>-->
+		<maven-install-plugin.version>3.1.1</maven-install-plugin.version>
+		<maven-deploy-plugin.version>3.1.1</maven-deploy-plugin.version>
+<!--		jcasgen-maven-plugin versions 3+ requires jdk11  -->
+		<jcasgen-maven-plugin.version>2.11.0</jcasgen-maven-plugin.version>
+		<maven-gpg-plugin.version>3.0.1</maven-gpg-plugin.version>
+		<maven-javadoc-plugin.version>3.6.3</maven-javadoc-plugin.version>
+		<maven-war-plugin.version>3.4.0</maven-war-plugin.version>
+		<maven-surefire-plugin.version>3.2.3</maven-surefire-plugin.version>
+		<maven-failsafe-plugin.version>3.2.3</maven-failsafe-plugin.version>
+		<maven-assembly-plugin.version>3.6.0</maven-assembly-plugin.version>
 		<mysql-connector.version>5.1.26</mysql-connector.version>
 		<scala-library.version>2.11.7</scala-library.version>
 		<scala-tools.version>0.4.0</scala-tools.version>
@@ -158,6 +163,8 @@
 		<!-- project specific conventions -->
 		<maven.compiler.source>1.8</maven.compiler.source>
 		<maven.compiler.target>1.8</maven.compiler.target>
+<!--		Prep for maven build with jdk >= 9  :  use maven.compiler.release.  -->
+<!--		<maven.compiler.release>8</maven.compiler.release>-->
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<maven.build.timestamp.format>yyyy-MM-dd HH:mm</maven.build.timestamp.format>
 	</properties>
@@ -188,6 +195,7 @@
 		<module>ctakes-smoking-status</module>
 		<module>ctakes-dependency-parser</module>
 		<module>ctakes-relation-extractor</module>
+		<module>ctakes-mastif-zoner</module>
 		<module>ctakes-assertion</module>
 		<module>ctakes-assertion-zoner</module>
 		<module>ctakes-temporal</module>
@@ -199,8 +207,9 @@
 		<module>ctakes-ytex</module>
 		<module>ctakes-ytex-uima</module>
 		<module>ctakes-dictionary-lookup-fast</module>
-      <module>ctakes-dockhand</module>
+        <module>ctakes-dockhand</module>
 		<module>ctakes-tiny-rest</module>
+		<module>ctakes-pbj</module>
 		<module>ctakes-user-resources</module>
 	</modules>
 	<dependencyManagement>
@@ -273,12 +282,6 @@
 				<groupId>org.codehaus.jackson</groupId>
 				<artifactId>jackson-mapper-asl</artifactId>
 				<version>${jackson.version}</version>
-			</dependency>
-			<!-- Mastif: Assertion Classificaiton System -->
-			<dependency>
-				<groupId>net.sf.mastif</groupId>
-				<artifactId>mastif-zoner</artifactId>
-				<version>${mastif.version}</version>
 			</dependency>
 			<!-- Scala -->
 			<dependency>
@@ -517,7 +520,7 @@
 			<dependency>
 				<groupId>org.apache.ctakes</groupId>
 				<artifactId>ctakes-core-model</artifactId>
-				<version>${project.version}</version>
+				<version>${ctakes-models.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>org.apache.ctakes</groupId>
@@ -542,7 +545,7 @@
 			<dependency>
 				<groupId>org.apache.ctakes</groupId>
 				<artifactId>ctakes-pos-tagger-model</artifactId>
-				<version>${project.version}</version>
+				<version>${ctakes-models.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>org.apache.ctakes</groupId>
@@ -552,7 +555,7 @@
 			<dependency>
 				<groupId>org.apache.ctakes</groupId>
 				<artifactId>ctakes-chunker-model</artifactId>
-				<version>${project.version}</version>
+				<version>${ctakes-models.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>org.apache.ctakes</groupId>
@@ -561,38 +564,33 @@
 			</dependency>
 			<dependency>
 				<groupId>org.apache.ctakes</groupId>
-				<artifactId>
-					ctakes-context-tokenizer
-				</artifactId>
+				<artifactId>ctakes-context-tokenizer</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>org.apache.ctakes</groupId>
-				<artifactId>
-					ctakes-clinical-pipeline
-				</artifactId>
+				<artifactId>ctakes-clinical-pipeline</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>org.apache.ctakes</groupId>
-				<artifactId>
-					ctakes-ne-contexts
-				</artifactId>
+				<artifactId>ctakes-ne-contexts</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>org.apache.ctakes</groupId>
-				<artifactId>
-					ctakes-assertion
-				</artifactId>
+				<artifactId>ctakes-mastif-zoner</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>org.apache.ctakes</groupId>
-				<artifactId>
-					ctakes-assertion-model
-				</artifactId>
+				<artifactId>ctakes-assertion</artifactId>
 				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.apache.ctakes</groupId>
+				<artifactId>ctakes-assertion-model</artifactId>
+				<version>${ctakes-models.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>org.apache.ctakes</groupId>
@@ -601,121 +599,87 @@
 			</dependency>
 			<dependency>
 				<groupId>org.apache.ctakes</groupId>
-				<artifactId>
-					ctakes-constituency-parser
-				</artifactId>
+				<artifactId>ctakes-constituency-parser</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>org.apache.ctakes</groupId>
-				<artifactId>
-					ctakes-constituency-parser-model
-				</artifactId>
+				<artifactId>ctakes-constituency-parser-model</artifactId>
+				<version>${ctakes-models.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.apache.ctakes</groupId>
+				<artifactId>ctakes-coreference</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>org.apache.ctakes</groupId>
-				<artifactId>
-					ctakes-coreference
-				</artifactId>
+				<artifactId>ctakes-coreference-model</artifactId>
+				<version>${ctakes-models.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.apache.ctakes</groupId>
+				<artifactId>ctakes-drug-ner</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>org.apache.ctakes</groupId>
-				<artifactId>
-					ctakes-coreference-model
-				</artifactId>
+				<artifactId>ctakes-side-effect</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>org.apache.ctakes</groupId>
-				<artifactId>
-					ctakes-drug-ner
-				</artifactId>
+				<artifactId>ctakes-side-effect-model</artifactId>
+				<version>${ctakes-models.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.apache.ctakes</groupId>
+				<artifactId>ctakes-smoking-status</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>org.apache.ctakes</groupId>
-				<artifactId>
-					ctakes-side-effect
-				</artifactId>
+				<artifactId>ctakes-smoking-status-model</artifactId>
+				<version>${ctakes-models.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.apache.ctakes</groupId>
+				<artifactId>ctakes-dependency-parser</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>org.apache.ctakes</groupId>
-				<artifactId>
-					ctakes-side-effect-model
-				</artifactId>
-				<version>${project.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>org.apache.ctakes</groupId>
-				<artifactId>
-					ctakes-smoking-status
-				</artifactId>
-				<version>${project.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>org.apache.ctakes</groupId>
-				<artifactId>
-					ctakes-smoking-status-model
-				</artifactId>
-				<version>${project.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>org.apache.ctakes</groupId>
-				<artifactId>
-					ctakes-dependency-parser
-				</artifactId>
-				<version>${project.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>org.apache.ctakes</groupId>
-				<artifactId>
-					ctakes-dependency-parser-model
-            </artifactId>
-            <version>${project.version}</version>
+				<artifactId>ctakes-dependency-parser-model</artifactId>
+            <version>${ctakes-models.version}</version>
          </dependency>
          <dependency>
             <groupId>org.apache.ctakes</groupId>
-            <artifactId>
-               ctakes-dependency-parser-model-clear
-            </artifactId>
-            <version>${project.version}</version>
+            <artifactId>ctakes-dependency-parser-model-clear</artifactId>
+            <version>${ctakes-models.version}</version>
          </dependency>
 			<dependency>
 				<groupId>org.apache.ctakes</groupId>
-				<artifactId>
-					ctakes-relation-extractor
-				</artifactId>
+				<artifactId>ctakes-relation-extractor</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>org.apache.ctakes</groupId>
-				<artifactId>
-					ctakes-relation-extractor-model
-				</artifactId>
+				<artifactId>ctakes-relation-extractor-model</artifactId>
+				<version>${ctakes-models.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.apache.ctakes</groupId>
+				<artifactId>ctakes-temporal</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>org.apache.ctakes</groupId>
-				<artifactId>
-					ctakes-temporal
-				</artifactId>
-				<version>${project.version}</version>
+				<artifactId>ctakes-temporal-model</artifactId>
+				<version>${ctakes-models.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>org.apache.ctakes</groupId>
-				<artifactId>
-					ctakes-temporal-model
-				</artifactId>
-				<version>${project.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>org.apache.ctakes</groupId>
-				<artifactId>
-					ctakes-ytex
-				</artifactId>
+				<artifactId>ctakes-ytex</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 			<dependency>
@@ -725,9 +689,7 @@
 			</dependency>
 			<dependency>
 				<groupId>org.apache.ctakes</groupId>
-				<artifactId>
-					ctakes-distribution
-                </artifactId>
+				<artifactId>ctakes-distribution</artifactId>
                 <version>${project.version}</version>
             </dependency>
          <dependency>
@@ -743,6 +705,11 @@
 			<dependency>
 				<groupId>org.apache.ctakes</groupId>
 				<artifactId>ctakes-user-resources</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.apache.ctakes</groupId>
+				<artifactId>ctakes-pbj</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 
@@ -781,6 +748,19 @@
 			</dependency>
 		</dependencies>
 	</dependencyManagement>
+	<repositories>
+		<repository>
+			<id>apache.snapshots</id>
+			<name>Apache Development Snapshot Repository</name>
+			<url>https://repository.apache.org/content/groups/snapshots/</url>
+			<releases>
+				<enabled>false</enabled>
+			</releases>
+			<snapshots>
+				<enabled>true</enabled>
+			</snapshots>
+		</repository>
+	</repositories>
 	<build>
 		<pluginManagement>
 			<plugins>
@@ -808,11 +788,6 @@
 						</execution>
 					</executions>
 				</plugin>
-				<!-- TODO: remove dependency upon Apache Ant -->
-				<plugin>
-					<artifactId>maven-antrun-plugin</artifactId>
-					<version>${maven-antrun-plugin.version}</version>
-				</plugin>
 				<plugin>
 					<groupId>com.mycila.maven-license-plugin</groupId>
 					<artifactId>maven-license-plugin</artifactId>
@@ -820,8 +795,8 @@
 					<configuration>
 						<header>ctakes-distribution/src/main/config/license_header.txt</header>
 						<excludes>
-							<!-- We're disabling .txt files for now because some Annotators may 
-								not be able to handle standard comments in text files. This may break name 
+							<!-- We're disabling .txt files for now because some Annotators may
+								not be able to handle standard comments in text files. This may break name
 								values pairs such as stopWords.txt -->
 							<exclude>**.txt</exclude>
 						</excludes>
@@ -860,7 +835,7 @@
 						</properties>
 						<strictCheck>true</strictCheck>
 					</configuration>
-				</plugin>						
+				</plugin>
 				<plugin>
 					<artifactId>maven-assembly-plugin</artifactId>
 					<version>${maven-assembly-plugin.version}</version>
@@ -882,12 +857,6 @@
 					<artifactId>maven-deploy-plugin</artifactId>
 					<version>${maven-deploy-plugin.version}</version>
 				</plugin>
-				<!--				The maven eclipse plugin is retired and no longer supported.-->
-				<!--				https://maven.apache.org/plugins/maven-eclipse-plugin/      -->
-				<!--				<plugin>-->
-				<!--					<artifactId>maven-eclipse-plugin</artifactId>-->
-				<!--					<version>2.9</version>-->
-				<!--				</plugin>-->
 				<plugin>
 					<artifactId>maven-gpg-plugin</artifactId>
 					<version>${maven-gpg-plugin.version}</version>
@@ -895,6 +864,14 @@
 				<plugin>
 					<artifactId>maven-install-plugin</artifactId>
 					<version>${maven-install-plugin.version}</version>
+				</plugin>
+				<plugin>
+					<artifactId>maven-remote-resources-plugin</artifactId>
+					<version>${maven-remote-resources-plugin.version}</version>
+				</plugin>
+				<plugin>
+					<artifactId>maven-antrun-plugin</artifactId>
+					<version>${maven-antrun-plugin.version}</version>
 				</plugin>
 				<plugin>
 					<artifactId>maven-jar-plugin</artifactId>
@@ -918,14 +895,14 @@
 						</archive>
 					</configuration>
 				</plugin>
-				<plugin>
-					<artifactId>maven-javadoc-plugin</artifactId>
-					<version>${maven-javadoc-plugin.version}</version>
-				</plugin>
+<!--				<plugin>-->
+<!--					<artifactId>maven-javadoc-plugin</artifactId>-->
+<!--					<version>${maven-javadoc-plugin.version}</version>-->
+<!--				</plugin>-->
 				<plugin>
 					<artifactId>maven-dependency-plugin</artifactId>
 					<version>${maven-dependency-plugin.version}</version>
-				</plugin>				
+				</plugin>
 				<plugin>
 					<artifactId>maven-site-plugin</artifactId>
 					<version>${maven-site-plugin.version}</version>
@@ -934,7 +911,7 @@
 					<artifactId>maven-source-plugin</artifactId>
 					<version>${maven-source-plugin.version}</version>
 				</plugin>
-				<!-- Maven expects tests to start or end with "Test", not "Tests", so 
+				<!-- Maven expects tests to start or end with "Test", not "Tests", so
 					explicitly include files ending in "Tests" -->
 				<plugin>
 					<artifactId>maven-surefire-plugin</artifactId>
@@ -949,18 +926,18 @@
 						<argLine>-Xmx3g</argLine>
 						<forkedProcessTimeoutInSeconds>900</forkedProcessTimeoutInSeconds>
 						<additionalClasspathElements>
-						    <additionalClasspathElement>ctakes-assertion-model/src/main/resources</additionalClasspathElement>						    
+						    <additionalClasspathElement>ctakes-assertion-model/src/main/resources</additionalClasspathElement>
 						    <additionalClasspathElement>ctakes-chunker-model/src/main/resources</additionalClasspathElement>
                      <additionalClasspathElement>ctakes-constituency-parser-model/src/main/resources</additionalClasspathElement>
                      <additionalClasspathElement>ctakes-core-model/src/main/resources</additionalClasspathElement>
 						    <additionalClasspathElement>ctakes-coreference-model/src/main/resources</additionalClasspathElement>
                      <additionalClasspathElement>ctakes-dependency-parser-model/src/main/resources</additionalClasspathElement>
                      <additionalClasspathElement>ctakes-dependency-parser-model-clear/src/main/resources</additionalClasspathElement>
-						    <additionalClasspathElement>ctakes-pos-tagger-model/src/main/resources</additionalClasspathElement>						    
+						    <additionalClasspathElement>ctakes-pos-tagger-model/src/main/resources</additionalClasspathElement>
 						    <additionalClasspathElement>ctakes-relation-extractor-model/src/main/resources</additionalClasspathElement>
 						    <additionalClasspathElement>ctakes-side-effect-model/src/main/resources</additionalClasspathElement>
 						    <additionalClasspathElement>ctakes-smoking-status-model/src/main/resources</additionalClasspathElement>
-						    <additionalClasspathElement>ctakes-temporal-model/src/main/resources</additionalClasspathElement>						    						    						    						    						    						    						    
+						    <additionalClasspathElement>ctakes-temporal-model/src/main/resources</additionalClasspathElement>
 						</additionalClasspathElements>
 					</configuration>
 				</plugin>
@@ -970,7 +947,7 @@
 					<groupId>org.apache.rat</groupId>
 					<artifactId>apache-rat-plugin</artifactId>
 					<version>${apache-rat-plugin.version}</version>
-					<configuration>	
+					<configuration>
 							<excludes>
 								<!-- generated directories -->
 								<exclude>**/target/**/*</exclude>
@@ -978,6 +955,7 @@
 								<!-- version control -->
 								<exclude>.git/**/*</exclude>
 								<exclude>.gitignore</exclude>
+								<exclude>.github/**/*</exclude>
 								<!-- Eclipse files -->
 								<exclude>**/.*</exclude>
 								<exclude>**/.settings/*</exclude>
@@ -998,10 +976,10 @@
 								<!-- Exclude test data files -->
 								<exclude>**/data/test/**</exclude>
 								<exclude>**/data/**</exclude>
-								<exclude>**/output/**</exclude>	
-								<exclude>**/sample_note.txt</exclude>																							
+								<exclude>**/output/**</exclude>
+								<exclude>**/sample_note.txt</exclude>
 							</excludes>
-						<numUnapprovedLicenses>0</numUnapprovedLicenses>								
+						<numUnapprovedLicenses>0</numUnapprovedLicenses>
 					</configuration>
 				</plugin>
 				<plugin>
@@ -1012,9 +990,9 @@
 						<lifecycleMappingMetadata>
 							<pluginExecutions>
 								<pluginExecution>
-								<!-- 
+								<!--
 								This is needed to execute/unpack resources in m2e eclipse ide
-								Currently used in the ctakes-dictionary-lookup project  
+								Currently used in the ctakes-dictionary-lookup project
 								-->
 									<pluginExecutionFilter>
 										<groupId>org.apache.maven.plugins</groupId>
@@ -1034,11 +1012,12 @@
 								<!--
 								Ignore the Maven remote resources plugin in Eclipse. We don't use it from Eclipse,
 								and it causes a warning if m2e is not configured to ignore it as below.
-								-->								
+								-->
 									<pluginExecutionFilter>
 										<groupId>org.apache.maven.plugins</groupId>
 										<artifactId>maven-remote-resources-plugin</artifactId>
-										<versionRange>${maven-remote-resources-plugin.version}</versionRange>
+<!--										<versionRange>${maven-remote-resources-plugin.version}</versionRange>-->
+										<version>${maven-remote-resources-plugin.version}</version>
 										<goals>
 											<goal>process</goal>
 										</goals>
@@ -1046,7 +1025,7 @@
 									<action>
 										<ignore />
 									</action>
-								</pluginExecution>																
+								</pluginExecution>
 							</pluginExecutions>
 						</lifecycleMappingMetadata>
 					</configuration>
@@ -1073,7 +1052,8 @@
 				<plugin>
 					<groupId>org.apache.uima</groupId>
 					<artifactId>jcasgen-maven-plugin</artifactId>
-					<version>${uimaj.version}</version>
+<!--					<version>${uimaj.version}</version>-->
+					<version>${jcasgen-maven-plugin.version}</version>
 					<executions>
 						<execution>
 							<goals><goal>generate</goal></goals>
@@ -1116,7 +1096,7 @@
 			<!--		ctakes-ytex-web contains a full copy of ctakes in its target/WEB-INF/lib	-->
 			<!--		and another full copy in target/ctakes-ytex-web.war	-->
 			<!--		This requires over 1.75 GB	of disk space, in addition to extra build time.  -->
-			<!--		We do not distribute the ctakes-web-rest.war with the ctakes distributable, so why build it? 	-->
+			<!--		We do not distribute the ctakes-ytex-web.war with the ctakes distributable, so why build it? 	-->
 			<!--		It can be built when wanted by enabling this profile ( web-rest-build ).	-->
 			<id>ytex-web-build</id>
 			<modules>

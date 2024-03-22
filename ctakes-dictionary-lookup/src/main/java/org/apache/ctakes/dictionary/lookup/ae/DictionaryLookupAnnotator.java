@@ -18,17 +18,6 @@
  */
 package org.apache.ctakes.dictionary.lookup.ae;
 
-import java.io.File;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
 import org.apache.ctakes.core.pipeline.PipeBitInfo;
 import org.apache.ctakes.core.resource.FileResource;
 import org.apache.ctakes.dictionary.lookup.MetaDataHit;
@@ -45,11 +34,17 @@ import org.apache.uima.jcas.JCas;
 import org.apache.uima.jcas.tcas.Annotation;
 import org.apache.uima.resource.ResourceInitializationException;
 
+import java.io.File;
+import java.util.*;
+
 
 /**
  * UIMA annotator that identified entities based on lookup.
  * 
  * @author Mayo Clinic
+ *
+ * @deprecated Use the dictionary-lookup-fast module.
+ * It is much faster and the same or better accuracy according to tests on multiple annotated corpora.
  */
 @PipeBitInfo(
 		name = "Dictionary Lookup (Old)",
@@ -57,6 +52,7 @@ import org.apache.uima.resource.ResourceInitializationException;
 		dependencies = { PipeBitInfo.TypeProduct.CHUNK, PipeBitInfo.TypeProduct.BASE_TOKEN },
 		products = PipeBitInfo.TypeProduct.IDENTIFIED_ANNOTATION
 )
+@Deprecated
 public class DictionaryLookupAnnotator extends JCasAnnotator_ImplBase
 {
 	// LOG4J logger based on class name
@@ -79,7 +75,9 @@ public class DictionaryLookupAnnotator extends JCasAnnotator_ImplBase
 
 		iv_context = aContext;
 		configInit();
-
+		iv_logger.info( "\nThe ctakes-dictionary-lookup module has been deprecated.\n"
+							 + "Please consider using ctakes-dictionary-lookup-fast.\n"
+							 + "ctakes-dictionary-lookup-fast is better than or equal in accuracy but ~1000x faster." );
 	}
 
 	/**

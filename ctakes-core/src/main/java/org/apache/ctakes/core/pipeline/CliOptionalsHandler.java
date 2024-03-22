@@ -27,14 +27,10 @@ final public class CliOptionalsHandler {
             return optionals.getInputDirectory();
          case "o":
             return optionals.getOutputDirectory();
-         case "s":
-            return optionals.getSubDirectory();
-         case "l":
-            return optionals.getLookupXml();
-         case StandardCliOptions.UMLS_USER:
-            return optionals.getUmlsUserName();
-         case StandardCliOptions.UMLS_PASS:
-            return optionals.getUmlsPassword();
+         case StandardCliOptions.USER_NAME:
+            return optionals.getUserName();
+         case StandardCliOptions.PASSWORD:
+            return optionals.getPassword();
          case StandardCliOptions.UMLS_KEY:
             return optionals.getUmlsApiKey();
          case StandardCliOptions.XMI_OUT_DIR:
@@ -43,6 +39,8 @@ final public class CliOptionalsHandler {
             return optionals.getHtmlOutDirectory();
          case StandardCliOptions.SUB_DIR:
             return optionals.getSubDirectory();
+         case StandardCliOptions.PIP_PBJ:
+            return optionals.getPipPbj();
          case "a":
             return optionals.getOption_a();
          case "b":
@@ -63,6 +61,8 @@ final public class CliOptionalsHandler {
             return optionals.getOption_j();
          case "k":
             return optionals.getOption_k();
+         case "l":
+            return optionals.getOption_l();
          case "m":
             return optionals.getOption_m();
          case "n":
@@ -71,6 +71,8 @@ final public class CliOptionalsHandler {
             return optionals.getOption_q();
          case "r":
             return optionals.getOption_r();
+         case "s":
+            return optionals.getOption_s();
          case "t":
             return optionals.getOption_t();
          case "u":
@@ -125,6 +127,8 @@ final public class CliOptionalsHandler {
             return optionals.getOption_J();
          case "K":
             return optionals.getOption_K();
+         case "L":
+            return optionals.getOption_L();
          case "M":
             return optionals.getOption_M();
          case "N":
@@ -133,6 +137,8 @@ final public class CliOptionalsHandler {
             return optionals.getOption_Q();
          case "R":
             return optionals.getOption_R();
+         case "S":
+            return optionals.getOption_S();
          case "T":
             return optionals.getOption_T();
          case "U":

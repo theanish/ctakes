@@ -26,7 +26,7 @@
 	<parent>
 		<groupId>org.apache.ctakes</groupId>
 		<artifactId>ctakes</artifactId>
-      <version>5.0.0-SNAPSHOT</version>
+      <version>5.1.0-SNAPSHOT</version>
 	</parent>
 	<packaging>pom</packaging>
 
@@ -83,6 +83,11 @@
 		<dependency>
 			<groupId>org.apache.ctakes</groupId>
 			<artifactId>ctakes-pos-tagger</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.ctakes</groupId>
+			<artifactId>ctakes-mastif-zoner</artifactId>
+			<version>5.1.0-SNAPSHOT</version>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.ctakes</groupId>
@@ -152,11 +157,21 @@
       </dependency>
 		<dependency>
 			<groupId>org.apache.ctakes</groupId>
+			<artifactId>ctakes-pbj</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.ctakes</groupId>
 			<artifactId>ctakes-tiny-rest</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.ctakes</groupId>
 			<artifactId>ctakes-user-resources</artifactId>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/net.nicoulaj.maven.plugins/checksum-maven-plugin -->
+		<dependency>
+			<groupId>net.nicoulaj.maven.plugins</groupId>
+			<artifactId>checksum-maven-plugin</artifactId>
+			<version>1.11</version>
 		</dependency>
 	</dependencies>
 
@@ -203,29 +218,22 @@
 						</executions>
 					</plugin>
 					<plugin>
-						<artifactId>maven-antrun-plugin</artifactId>
+						<groupId>net.nicoulaj.maven.plugins</groupId>
+						<artifactId>checksum-maven-plugin</artifactId>
+						<version>1.11</version>
 						<executions>
 							<execution>
-								<id>generate checksums for binary artifacts</id>
+								<id>artifacts-checksum</id>
+<!--								<phase>package</phase>-->
 								<goals>
-									<goal>run</goal>
+									<goal>artifacts</goal>
 								</goals>
-								<phase>verify</phase>
 								<configuration>
-									<target>
-										<checksum algorithm="sha1" format="MD5SUM">
-											<fileset dir="${project.build.directory}">
-												<include name="*.zip" />
-												<include name="*.gz" />
-											</fileset>
-										</checksum>
-										<checksum algorithm="md5" format="MD5SUM">
-											<fileset dir="${project.build.directory}">
-												<include name="*.zip" />
-												<include name="*.gz" />
-											</fileset>
-										</checksum>
-									</target>
+									<attachChecksums>true</attachChecksums>
+									<appendFilename>true</appendFilename>
+									<algorithms>
+										<algorithm>SHA-512</algorithm>
+									</algorithms>
 								</configuration>
 							</execution>
 						</executions>

@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<!-- see accompanying README.txt	-->
+<!-- see accompanying README.md.txt	-->
 <project
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"
 	xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
@@ -7,7 +7,7 @@
 	<parent>
 		<groupId>org.apache.ctakes</groupId>
 		<artifactId>ctakes</artifactId>
-		<version>5.0.0-SNAPSHOT</version>
+		<version>5.1.0-SNAPSHOT</version>
 	</parent>
 	<artifactId>ctakes-ytex-web</artifactId>
 	<packaging>war</packaging>
@@ -15,6 +15,7 @@
 	<url>http://ctakes.apache.org</url>
 	<inceptionYear>2012</inceptionYear>
 	<properties>
+		<ctakes.version>5.0.0-SNAPSHOT</ctakes.version>
 		<jetty.useTestScope>false</jetty.useTestScope>
 	</properties>
 	<dependencies>
@@ -25,6 +26,12 @@
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-web</artifactId>
+		</dependency>
+		<!--   ctakes-user-resources exists specifically for standalone products like ctakes-ytex-web   -->
+		<dependency>
+			<groupId>org.apache.ctakes</groupId>
+			<artifactId>ctakes-user-resources</artifactId>
+			<version>${ctakes.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>com.sun.faces</groupId>
@@ -135,7 +142,7 @@
         build a classpath.   -->
 			<plugin>
 				<artifactId>maven-resources-plugin</artifactId>
-				<version>3.0.2</version>
+				<version>3.3.1</version>
 				<executions>
 					<execution>
 						<id>copy-resources</id>
